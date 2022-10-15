@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script>
+			window.onload=function(){var box=document.getElementById("box");
+				var html=document.documentElement;
+				let fullscreen=setTimeout(function(){//获取全屏请求
+					html.requestFullscreen();clearTimeout(fullscreen)},2000);
+				var inner=document.querySelector(".fraction");
+				var event2=document.getElementById("event2");
+				var time=document.getElementById("time");
+				var timeee=0;
+				var intervall=setInterval(function(){timeee++;
+					time.innerHTML="game time:"+timeee+"s";},1000);
+				var directionarr=[87,83,65,68];
+				var persondirection=87;
+				var boxperson=document.createElement("div");
+				boxperson.className="person"; 
+				var long=0;
+				var i=0;
+				var personi=0;
+				var timee=0;
+				var flag=0;
+				var personfood=0;
+				var T;
+				var L;
+				var personT;
+				var personL;
+				var fraction2=0;
+				var snakebody=[];
+				var personbody=[];
+				var bodyarr=[];
+				var personbodyarr=[];
+				var Death=3;
+				var fraction=0;
+				var speed=1;
+				var foodarr=[];
+				var array=["red","yellow","green","skyblue","orange","pink","purple","white"];
+				var auto=document.querySelector(".auto");
+				function person(){var eye=document.createElement("div");
+					eye.className="eye";
+					var e=document.createElement("div");
+					e.className="e";
+					var ey=document.createElement("div");
+					ey.className="ey"
+					var eye2=document.createElement("div");
+					eye2.className="eye2";
+					var e2=document.createElement("div");
+					e2.className="e";
+					var ey2=document.createElement("div");
+					ey2.className="ey"
+					eye.appendChild(e);
+					eye.appendChild(ey);
+					eye2.appendChild(e2);
+					eye2.appendChild(ey2);
+					boxperson.appendChild(eye);
+					boxperson.appendChild(eye2);
+					boxperson.style.backgroundColor=array[Rand(array.length)];
+					vessel.appendChild(boxperson);
+					var vesselw=vessel.offsetWidth;
+					var vesselh=vessel.offsetHeight;
+					var boxpersonwidth=boxperson.offsetWidth;
+					boxperson.style.top=randposition(vesselh,boxpersonwidth)+"px";
+					boxperson.style.left=randposition(vesselw,boxpersonwidth)+"px";
+					function randposition(x,w){var X=Math.round(Math.random()*x)-w;
+						while(X<=0)
+						 X=Math.round(Math.random()*x)-w;
+						return X;}
+					function Rand(len){var length=Math.round(Math.random()*len);
+						if(length)
+							return length-1;
+						else
+							return length;}
+					flag++;}
+				(function()
+				{box.style.backgroundColor=array[Rand(array.length)];
+					function Rand(len){
+						var length=Math.round(Math.random()*len);
+						if(length)
+							return length-1;
+						else
+						return length;}
+					var vesselwidth=vessel.offsetWidth-4;
+					var vesselheight=vessel.offsetHeight-4;
+					var boxwidth=box.offsetWidth;
+					var resetboxl=(vesselwidth/2);
+					var resetboxt=(vesselheight/2);
+					box.style.left=resetboxl+"px";
+					box.style.top=resetboxt+"px";
+					auto.setAttribute("autoplay",true);
+					var food=setInterval(foods,3000);
+					function foods(){var div=document.createElement("div");
+						var foodh=(boxwidth/2);
+						div.style.height=foodh+"px";
+						var foodw=(boxwidth/2);
+						div.style.width=foodw+"px";
+						div.className="div";
+						div.style.position="absolute";
+						div.style.top=foodTop(vesselheight,foodh)+"px";
+						div.style.left=foodLeft(vesselwidth,foodw)+"px";
+						div.style.backgroundColor=array[Rand(array.length)];
+						div.style.borderTopLeftRadius=50+"%";
+						div.style.borderTopRightRadius=50+"%";
+						vessel.appendChild(div);
+						foodarr.push(div);
+						persondirection=directionarr[Rand(directionarr.length)];}
+					function foodTop(h,f){var rand=Math.round(Math.random()*h+f);
+						if(rand>=vesselheight-f)
+						return rand-(f*2);
+						else
+							return rand;}
+					function foodLeft(w,f){
+						var rand=Math.round(Math.random()*w+f);
+						if(rand>=vesselwidth-f)
+						return rand-(f*2);
+						else
+							return rand;}
+					var direction=83;
+					function body(arr,body,b){
+						var bodynode=document.createElement("div");
+						bodynode.className="snakebody";
+						vessel.appendChild(bodynode);
+						bodynode.style.backgroundColor=b.style.backgroundColor;
+						body.push(bodynode);
+						arr.push([0,0]);}
+					var intervals=setInterval(interval,10);
+					function interval(){timee++;
+						if(timee%20==0)
+						replace(snakebody,bodyarr,T,L);
+						if(flag)
+						if(timee%20==0)
+						replace(personbody,personbodyarr,personT,personL);
+						function replace(body,arr,t,l){
+							if(body.length){	
+							body[0].style.top=t+"px";
+							body[0].style.left=l+"px";
+							let a,b;
+							for(a=0;a<body.length-1;a++){
+								for(b=0;b<2;b++){
+									if(b)
+										body[a+1].style.top=arr[a][b]+"px";
+									else
+										body[a+1].style.left=arr[a][b]+"px";
+									}}}}
+						if(timeee==5){
+							event2.innerHTML="5秒后出现人机";
+						var timeout=setTimeout(function(){person();						
+							event2.innerHTML="暂无";
+							clearTimeout(timeout);},4000);}
+						switch(direction){case 83:
+							{box.style.top=box.offsetTop+speed+"px";
+								break;}							
+							case 87:
+							{box.style.top=box.offsetTop-speed+"px";
+								break;}
+							case 65:
+							{box.style.left=box.offsetLeft-speed+"px";
+								break;}
+							case 68:
+							{box.style.left=box.offsetLeft+speed+"px";
+								break;}}
+						if(boxperson.offsetTop<=0)
+									persondirection=83;
+						else if(boxperson.offsetTop>=0&&boxperson.offsetTop>=(vesselheight-boxperson.offsetWidth))
+							persondirection=87;
+							else if(boxperson.offsetLeft<=0)
+								persondirection=68;
+							else if(boxperson.offsetLeft>=0&&boxperson.offsetLeft>=(vesselwidth-boxperson.offsetWidth))
+								persondirection=65;
+							switch(persondirection){case 83:
+								{boxperson.style.top=boxperson.offsetTop+speed+"px";
+									break;}							
+								case 87:
+								{boxperson.style.top=boxperson.offsetTop-speed+"px";
+									break;}
+								case 65:
+								{boxperson.style.left=boxperson.offsetLeft-speed+"px";
+									break;}
+								case 68:
+								{boxperson.style.left=boxperson.offsetLeft+speed+"px";
+									break;}}
+					T=box.offsetTop;
+					L=box.offsetLeft;
+						test(foodarr,T,L);
+						if(flag){personT=boxperson.offsetTop;
+							personL=boxperson.offsetLeft;
+						test2(foodarr,personT,personL);
+						judge(personL,personT,snakebody,boxwidth,0);
+						judge(L,T,personbody,boxwidth,1);
+						fun(personbody,personbodyarr);
+						function test2(arr,t,l){
+							for(var i=0;i<arr.length;i++){
+								if(arr[i].offsetLeft>=l&&arr[i].offsetLeft<=l+boxwidth&&arr[i].offsetTop>=t&&arr[i].offsetTop<=t+boxwidth){arr[i].style.display="none";
+									vessel.removeChild(arr[i]);
+									fraction2+=10;
+									body(personbodyarr,personbody,boxperson);}}}}
+						function test(arr,t,l){
+							for(var i=0;i<arr.length;i++){
+							if(arr[i].offsetLeft>=l&&arr[i].offsetLeft<=l+boxwidth&&arr[i].offsetTop>=t&&arr[i].offsetTop<=t+boxwidth){arr[i].style.display="none";
+								vessel.removeChild(arr[i]);
+								fraction+=10;
+						inner.innerHTML="得分:"+fraction;
+						body(bodyarr,snakebody,box);}}}
+				if(T>=vesselheight-boxwidth||T<=0)
+					death(1);
+				else if(L>=vesselwidth-boxwidth||L<=0)
+					death(1);
+					fun(snakebody,bodyarr);}
+						function death(count){
+							if(count){
+								alert("game over");
+							clearInterval(intervals);	
+							clearInterval(food);
+							clearInterval(intervall);
+							setTimeout(()=>{
+								location.reload()
+							},5000)//5秒后进行页面刷新
+							Death--;}
+							else{boxperson.style.display="none";
+							for(let i=0;i<personbody.length;i++){
+								vessel.removeChild(personbody[i]);}
+							personbody=[];
+							event2.innerHTML="人机以死亡,5s后自动生成新的人机";
+							var deatheven=setTimeout(function(){
+								boxperson.style.display="block";
+								clearTimeout(deatheven);
+								event2.innerHTML="暂无";
+								flag=1;},5000);
+							personbodyarr=[];
+							personfood=fraction2/10;
+							if(personfood){
+							deathgeneratefood(personfood,personT,personL);}
+							fraction2=0;
+							flag=0;}}
+						function fun(body,arr){
+							let c;
+							let d;
+						for(c=0;c<body.length;c++){
+							for(d=0;d<2;d++){
+							if(d)
+								arr[c][d]=body[c].offsetTop;
+							else
+								arr[c][d]=body[c].offsetLeft;}}}
+							
+							function deathgeneratefood(num,T,L){
+								for(let i=0;i<num;i++){
+							let div=document.createElement("div");
+							let foodh=(boxwidth/2);
+							div.style.height=foodh+"px";
+							let foodw=(boxwidth/2);
+							div.style.width=foodw+"px";
+							div.className="div";
+							div.style.position="absolute";
+							div.style.backgroundColor=array[Rand(array.length)];
+							div.style.borderRadius=50+"%";
+							div.style.top=T+"px";
+							div.style.left=L+"px";
+							vessel.appendChild(div);
+							foodarr.push(div);}}
+							function judge(L,T,arr,boxwidth,num){
+							for(let i=0;i<arr.length;i++){
+								if(((L+boxwidth==arr[i].offsetLeft)||(L==arr[i].offsetLeft+boxwidth))&&((T+boxwidth>=arr[i].offsetTop[i]&&T<=arr[i].offsetTop)||(T>=arr[i].offsetTop&&T<=boxwidth+arr[i].offsetTop)))
+								death(num);
+								else if((T==arr[i].offsetTop+boxwidth||T+boxwidth==arr[i].offsetTop)&&((L+boxwidth>=arr[i].offsetLeft&&L<=arr[i].offsetLeft)||(L<=arr[i].offsetLeft+boxwidth&&L>=arr[i].offsetLeft)))
+									death(num);}}
+						document.onkeydown=function(event){
+							event=event||window.event;
+							direction=event.keyCode;}})();}
+		</script>
+	</head>
+	<style>body{
+	background-color:black;
+}*{padding:0;
+	margin:0;}.snakebody{width:30px;
+	height:30px;
+	position:absolute;
+	border-radius: 50%;}.personbody{width:30px;
+	height:30px;
+	position:absolute;
+	border-radius: 50%;}#box{width:30px;
+		height:30px;
+		position:absolute;
+		border-radius: 50%;
+		z-index:100;}#vessel{position:relative;
+		width:1000px;
+		height:700px;
+		border:2px red solid;
+		top:50%;
+		left:50%;
+		transform:translateX(-50%) ;}.person{width:30px;
+		height:30px;
+		position:absolute;
+		border-radius: 50%;
+		z-index:100;}.fraction{width:200px;
+		height:70px;
+		border: 2px solid red;
+		color:white;
+		font-size: 30px;
+		line-height: 70px;
+		text-align: center;
+		position: absolute;top:0;
+	}.div{animation:rotate 1.5s linear infinite;}.div::before{content: '';
+		position:absolute;
+				top:-5px;
+				left:-5px;
+				right:-5px;
+				bottom:-5px;
+	background:linear-gradient(90deg,skyblue,yellow,orange,red,pink,skyblue);	
+	border-radius:50px;
+	filter:blur(18px);
+	z-index:-1;}@keyframes rotate{from{
+	transform:rotate(0);
+}
+30%{
+	transform: rotate(-45deg);
+}
+70%{
+	transform: rotate(45deg);
+}
+to{
+	transform:rotate(0);
+}}.eye{width:10px;
+height:10px;
+background: white;
+position: absolute;
+top:20%;
+left:10%;
+border-radius: 50%;
+z-index:101;}.eye2{width:10px;
+height:10px;
+background: white;
+position: absolute;
+top:20%;
+left:58%;
+border-radius: 50%;
+z-index:101;}.e{width:5px;
+height:5px;
+background: black;
+border-radius: 50%;
+position:absolute;
+top:50%;
+left:50%;
+transform: translateX(-50%) translateY(-50%);}.ey{width:2px;
+height:2px;
+background: white;
+border-radius: 50%;
+position:absolute;
+left:60%;}.prompt{height:70px;
+width:250px;
+border: 2px solid red;
+color:white;
+font-size: 30px;
+line-height: 70px;
+text-align: center;
+position: absolute;
+top:0;
+left:100%;}#event{height:70px;
+width:250px;
+border: 2px solid red;
+color:white;
+font-size: 30px;
+line-height: 70px;
+text-align: center;
+position: absolute;
+top:100px;
+left:100%;}#event2{height:70px;
+width:250px;
+border: 1px solid red;
+color:red;
+font-size: 15px;
+line-height: 70px;
+text-align: center;
+position: absolute;
+top:174px;
+left:100%;}
+	</style>
+	<!-- 蛇身体的思想实现
+		1，蛇身体
+			蛇身体为数组，分数每到达一个高度，则会push推入一个数组
+			身体跟着头的大小变化而变化
+		2，蛇身体跟随蛇头移动，
+			蛇的每一节身体沿着蛇上一节身体的方向走动，顶为蛇头每次
+		3，在蛇头每次调换方向时做一个标记，为后面的身体部分
+		每一节身体都沿着上一节身体的轨道前进，
+		初始是为蛇头
+			-->
+	<body><div id="vessel"><div class="fraction">得分:0</div>
+		<div id="box"><div class="eye"><div class="e"></div><div class="ey"></div></div><div class="eye2"><div class="e"></div><div class="ey"></div></div></div><div class="prompt"><div id="time">game time:0s</div></div><div id="event">游戏事件</div><div id="event2">暂无</div></div><audio class="auto" src="./audio/backgroundMusic.mp3" loop></audio></body>
+</html>
