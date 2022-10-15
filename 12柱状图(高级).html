@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<script src="../node_modules/echarts/dist/echarts.min.js"></script>
+<style>
+    body,html{
+        width:100%;
+        height:100%;
+    }
+    *{
+        margin:0 0;
+        padding:0 0;
+    }
+    #e{
+        width:100%;
+        height:100%;
+        margin:0 auto;
+    }
+</style>
+<body>
+    <div id="e"></div>
+</body>
+<script>
+    'use strict'
+    window.onload=function(){
+        // 拿到页面dom节点
+        const e=echarts.init(document.getElementById('e'),'dark')
+
+        const myColor=['red','yellow','green','blue','purple'].reverse()
+
+        // 配置参数
+        e.setOption({
+            title:{
+                text:"文本标题"
+            },
+            xAxis:{
+                type:"value",
+                // 不显示标签
+                show:false
+            },
+            yAxis:[{
+                // 不显示y轴线
+                axisLine:{
+                    show:false
+                },
+                axisLabel:{
+                    fontSize:30,
+                    color:'white'
+                },
+                // 不显示刻度
+                data:['Java','NodeJs','Python','C','JS'],
+                axisTick:{
+                    show:false,
+                    fontSize:40
+                },
+                type:"category"
+            },{
+                // 不显示y轴线
+                axisLine:{
+                    show:false
+                },
+                // 不显示刻度
+                axisTick:{
+                    show:false
+                },
+                type:"category",
+                axisLabel:{
+                    show:false,
+                },
+                data:[100,100,100,100,100]
+            }],
+            series:[{
+                type:"bar",
+                data:[40,60,65,80,70],
+                label:{
+                    show:true,
+                    formatter:'{c}%',
+                    fontSize:30
+                },
+                itemStyle:{
+                    // 设置柱状的圆弧
+                    barBorderRadius:20,
+                    color:(params)=>{
+                        return myColor[params.dataIndex]
+                    }
+                },
+                // 设置在第一层
+                yAxisIndex:1,
+                // 柱状的距离
+                barCategoryGap:40
+            },{
+                // 设置在最底层
+                yAxisIndex:0,
+                type:"bar",
+                data:[100,100,100,100,100],
+                itemStyle:{
+                    barBorderRadius:20,
+                    color:'none',
+                    BorderWidth:15,
+                    borderColor:'skyblue'
+                },
+                label:{
+                    show:true,
+                    position:'outside',
+                    formatter:'{c}%',
+                    fontSize:30
+                }
+            }]
+        })
+    }
+</script>
+</html>
